@@ -1,0 +1,749 @@
+@font-face {
+    font-family: "Fira Sans";
+    src: url("./fonts/FiraSans-Regular.woff2") format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Fira Sans";
+    src: url("./fonts/FiraSans-SemiBold.woff2") format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Garamond";
+    src: url("./fonts/EBGaramond-Bold.woff2") format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/**
+  Нормализация блочной модели
+ */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/**
+  Убираем внутренние отступы слева тегам списков,
+  у которых есть атрибут class
+ */
+:where(ul, ol):where([class]) {
+    padding-left: 0;
+}
+
+/**
+  Убираем внешние отступы body и двум другим тегам,
+  у которых есть атрибут class
+ */
+body,
+:where(blockquote, figure):where([class]) {
+    margin: 0;
+}
+
+/**
+  Убираем внешние отступы вертикали нужным тегам,
+  у которых есть атрибут class
+ */
+:where(
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  ul,
+  ol,
+  dl
+):where([class]) {
+    margin-block: 0;
+}
+
+:where(dd[class]) {
+    margin-left: 0;
+}
+
+:where(fieldset[class]) {
+    margin-left: 0;
+    padding: 0;
+    border: none;
+}
+
+/**
+  Убираем стандартный маркер маркированному списку,
+  у которого есть атрибут class
+ */
+:where(ul[class]) {
+    list-style: none;
+}
+
+/**
+  Обнуляем вертикальные внешние отступы параграфа,
+  объявляем локальную переменную для внешнего отступа вниз,
+  чтобы избежать взаимодействие с более сложным селектором
+ */
+p {
+    --paragraphMarginBottom: 24px;
+
+    margin-block: 0;
+}
+
+/**
+  Внешний отступ вниз для параграфа без атрибута class,
+  который расположен не последним среди своих соседних элементов
+ */
+p:where(:not([class]):not(:last-child)) {
+    margin-bottom: var(--paragraphMarginBottom);
+}
+
+
+/**
+  Упрощаем работу с изображениями
+ */
+img {
+    display: block;
+    max-width: 100%;
+}
+
+/**
+  Наследуем свойства шрифт для полей ввода
+ */
+input,
+textarea,
+select,
+button {
+    font: inherit;
+}
+
+html {
+    /**
+      Пригодится в большинстве ситуаций
+      (когда, например, нужно будет "прижать" футер к низу сайта)
+     */
+    height: 100%;
+}
+
+/**
+  Плавный скролл
+ */
+html,
+:has(:target) {
+    scroll-behavior: smooth;
+}
+
+body {
+    /**
+      Пригодится в большинстве ситуаций
+      (когда, например, нужно будет "прижать" футер к низу сайта)
+     */
+    min-height: 100%;
+    /**
+      Унифицированный интерлиньяж
+     */
+    line-height: 1.5;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+ */
+svg *[fill] { fill: currentColor }
+svg *[stroke] { stroke: currentColor }
+
+/**
+  Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+ */
+svg * {
+    transition-property: fill, stroke;
+}
+
+/**
+  Удаляем все анимации и переходы для людей,
+  которые предпочитают их не использовать
+ */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+
+:root {
+    --font-family: "Fira Sans";
+    --second-family: "Garamond";
+
+    --color-white: #FFFFFF;
+    --color-background: #EDEDED;
+    --color-black: #191919;
+    --color-accent: #05B093;
+    --color-background-poster: rgba(25, 25, 25, 0.05);
+
+    --max-widht: 1296px;
+    --border-radius-button: 50px;
+    --border-radius-poster: 16px;
+}
+
+body {
+    font-family: var(--font-family), sans-serif;
+    background: var(--color-background);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--second-family), sans-serif;
+}
+
+.container {
+    display: grid;
+    justify-content: center;
+    grid-template-columns:repeat(12, minmax(24px, 84px));
+    grid-column-gap: 24px;
+    margin-inline: auto;
+}
+
+.header {
+    display: flex;
+    background: var(--color-black);
+    height: 104px;
+    color: var(--color-white);
+    padding-block: 32px;
+}
+
+.header__navigation_content {
+    display: flex;
+    grid-column: 1 / span 12;
+    height: 40px;
+    column-gap: 20px;
+    justify-content: space-between;
+}
+
+.header__navigation_list {
+    display: flex;
+    height: 22px;
+    margin-block: 9px;
+    column-gap: 20px
+}
+
+.header__navigation_item {
+    display: flex;
+    white-space: nowrap;
+    align-items: center;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.header__navigation_item:not(:last-child)::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    transform: rotate(45deg);
+    background: var(--color-white);
+    margin-left: 23px;
+}
+
+.header__navigation_link {
+    text-decoration: none;
+    color: var(--color-white);
+}
+
+.main {
+    grid-column: 1 / span 12;
+    color: var(--color-black);
+}
+
+.slider {
+    display: flex;
+    margin-top: 60px;
+}
+
+.slider__main_image {
+    grid-column: 1 / span 8;
+    border-radius: 12px;
+
+}
+
+.slider__aside_block {
+    display: flex;
+    flex-direction: column;
+    grid-column: 9 / span 4;
+    row-gap: 16px;
+}
+
+.slider__aside_item {
+    display: flex;
+    column-gap: 24px;
+    border-radius: 8px;
+    padding: 12px 16px;
+    align-items: center;
+    background: var(--color-background-poster);
+}
+
+.slider__aside_events {
+    white-space: nowrap;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.slider__aside_link {
+    text-decoration: none;
+    color: currentColor;
+}
+
+.eventPoster {
+    display: flex;
+    font-family: var(--second-family), sans-serif;
+    margin-top: 184px;
+
+}
+
+.eventPoster__header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    grid-column: 1 / span 12;
+    height: 167px;
+    padding-bottom: 100px;
+}
+
+
+.eventPoster__header_title {
+    display: flex;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 1.4;
+}
+
+.eventPoster__header_item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 32px;
+    height: 40px;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.4;
+}
+
+.eventPoster__header_item::before {
+    content: '';
+    width: 36px;
+    aspect-ratio: 1;
+    background: url("./icons/icon.svg");
+}
+
+.eventPoster__sectionEvent {
+    display: flex;
+    flex-direction: column;
+    grid-column: 1 / span 12;
+    row-gap: 80px;
+    font-family: var(--second-family), sans-serif;
+    margin-bottom: 136px;
+}
+
+
+.eventPoster__sectionEvent_poster {
+    display: flex;
+    align-items: center;
+    border-radius: 16px;
+    padding: 32px 60px;
+    height: 304px;
+    column-gap: 62px;
+    background: var(--color-background-poster);
+}
+
+.sectionEvent__poster_date {
+    display: flex;
+    flex-direction: column;
+    width: 79px;
+    height: 119px;
+}
+
+.sectionEvent__poster_date_number {
+    height: 79px;
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 1.4;
+    text-align: center;
+    opacity: 0.75;
+
+}
+
+.sectionEvent__poster_date_month {
+    height: 29px;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 1.4;
+    text-align: center;
+    opacity: 0.75;
+    align-self: stretch;
+    flex-grow: 0;
+    margin: -16px 0;
+}
+
+.sectionEvent__poster_info-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 415px;
+    height: 200px;
+    justify-content: space-between;
+}
+
+.sectionEvent__poster_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 415px;
+    height: 128px;
+}
+
+.sectionEvent__poster_info_name {
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 1.4;
+}
+
+.sectionEvent__poster_info_text {
+    font-family: var(--font-family), sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 140%;
+    opacity: 0.75;
+}
+
+.sectionEvent__poster_options {
+    display: flex;
+    column-gap: 30px;
+    height: 32px;
+}
+
+.sectionEvent__poster_option {
+    display: flex;
+    height: 32px;
+    font-family: var(--font-family), sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.4;
+    column-gap: 20px;
+    opacity: 0.75;
+    align-items: center;
+}
+
+.sectionEvent__poster_option_1::before {
+    content: url("./icons/muz.svg");
+}
+
+.sectionEvent__poster_option_2::before {
+    content: url("./icons/time.svg");
+}
+
+.sectionEvent__poster_option_3::before {
+    content: url("./icons/age.svg");
+}
+
+
+.sectionEvent__poster_button {
+    color: var(--color-white);
+    background: var(--color-accent);
+    align-content: center;
+    border-radius: 50px;
+    padding: 14px 30px 14px 30px;
+    width: 175px;
+    height: 51px;
+    font-family: var(--font-family), sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.eventPoster__news {
+    row-gap: 60px;
+    max-height: 564px;
+    margin-bottom: 160px;
+}
+
+.news__header_title {
+    display: flex;
+    grid-column: 1 / span 6;
+    font-family: var(--second-family), sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 1.4;
+    max-height: 67px;
+}
+
+.news__list {
+    display: flex;
+    grid-column: 1 / span 6;
+    flex-direction: row;
+    column-gap: 24px;
+    max-height: 394px;
+}
+
+.news__item {
+    display: flex;
+    flex-direction: column;
+    row-gap: 32px;
+}
+
+.news__item_title {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.4;
+}
+
+.news__item_info {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.calendar_block {
+    display: flex;
+    grid-area: 1 / 8 / 3 /span 5;
+    flex-direction: column;
+    background: rgba(25, 25, 25, 0.05);
+}
+
+.calendar_header_title {
+    display: flex;
+    color: var(--color-white);
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 1.4;
+    height: 300px;
+    padding: 24px;
+    align-items: end;
+    background: url("./image/calendar__image.png") center/contain no-repeat;
+}
+
+.calendar_dates {
+    display: flex;
+    column-gap: 20px;
+    padding: 24px;
+}
+
+.calendar_dates_choice_month {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 216px;
+    width: 154px;
+
+}
+
+.calendar_month {
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 1.4;
+}
+
+
+.calendar_month_button_block {
+    display: flex;
+    flex-direction: row;
+    column-gap: 8px;
+    height: 48px;
+
+}
+
+.calendar_month_button {
+    display: flex;
+    color: var(--color-white);
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: var(--color-accent);
+    border-radius: 8px;
+    padding: 12px;
+    width: 48px;
+    aspect-ratio: 1;
+}
+
+.calendar_date {
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+    width: 304px;
+    height: 216px;
+}
+
+.calendar_date_list {
+    display: flex;
+    column-gap: 4px;
+}
+
+.calendar_date_item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-white);
+    background: rgba(25, 25, 25, 0.3);
+    padding: 6px 10px;
+    width: 40px;
+    height: 40px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.calendar_date_item.is_active {
+    background-color: var(--color-accent);
+    opacity: 1;
+}
+
+.eventPoster__anons_list {
+    display: flex;
+    grid-column: 1 / span 12;
+    max-width: 100%;
+    column-gap: 24px;
+    max-height: 98px;
+}
+
+.eventPoster__anons {
+    margin-bottom: 150px;
+}
+
+.eventPoster__anons_item {
+    display: flex;
+    width: 306px;
+    align-items: center;
+}
+
+.eventPoster__anons_item_date {
+    display: flex;
+    width: 100px;
+    background-color: var(--color-accent);
+    border-radius: 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-block: 16px;
+    max-height: 98px;
+}
+
+.eventPoster__anons_item_date p {
+    color: var(--color-white);
+    font-family: var(--second-family), sans-serif;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+
+.eventPoster__anons_item_date p:not(:last-child) {
+    margin-bottom: 0;
+    font-size: 36px;
+}
+
+.eventPoster__anons_item_date p:last-child {
+    font-size: 18px;
+}
+
+.eventPoster__anons_item_name {
+    padding-right: 12px;
+    max-width: 100%;
+    padding-left: 27px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.footer {
+    background-color: var(--color-black);
+    color: var(--color-white);
+    height: 100%;
+    max-height: 386px;
+}
+
+.footer-middle {
+    display: flex;
+    flex-direction: column;
+    grid-column: 5 / span 4;
+    row-gap: 32px;
+}
+
+.footer-middle-title {
+    font-family: var(--second-family), sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.4;
+}
+
+.footer-middle-list {
+    display: flex;
+    column-gap: 24px;
+}
+
+.footer-middle-item {
+    font-family: var(--font-family), sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.footer-end {
+    display: flex;
+    flex-direction: column;
+    grid-column: 9 / span 4;
+    row-gap: 32px;
+    margin-bottom: 60px;
+}
+
+.footer-end-title {
+    font-family: var(--second-family), sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.4;
+}
+
+.footer-end-list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 24px;
+}
+
+.footer-end-item {
+    font-family: var(--font-family), sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.footer-separator {
+    display: flex;
+    grid-column: 1 / span 12;
+    width: 100%;
+    border: 1px solid var(--color-white);
+    opacity: 0.5;
+
+}
+
+.footer-co {
+    display: inline-flex;
+    grid-column: 1 / span 12;
+    padding-block: 32px;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-white);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.4;
+    opacity: 0.5;
+}
