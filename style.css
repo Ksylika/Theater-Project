@@ -23,8 +23,8 @@
 }
 
 /**
-  Нормализация блочной модели
- */
+Нормализация блочной модели
+*/
 *,
 *::before,
 *::after {
@@ -32,37 +32,37 @@
 }
 
 /**
-  Убираем внутренние отступы слева тегам списков,
-  у которых есть атрибут class
- */
+Убираем внутренние отступы слева тегам списков,
+у которых есть атрибут class
+*/
 :where(ul, ol):where([class]) {
     padding-left: 0;
 }
 
 /**
-  Убираем внешние отступы body и двум другим тегам,
-  у которых есть атрибут class
- */
+Убираем внешние отступы body и двум другим тегам,
+у которых есть атрибут class
+*/
 body,
 :where(blockquote, figure):where([class]) {
     margin: 0;
 }
 
 /**
-  Убираем внешние отступы вертикали нужным тегам,
-  у которых есть атрибут class
- */
+Убираем внешние отступы вертикали нужным тегам,
+у которых есть атрибут class
+*/
 :where(
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  ul,
-  ol,
-  dl
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+dl
 ):where([class]) {
     margin-block: 0;
 }
@@ -78,44 +78,44 @@ body,
 }
 
 /**
-  Убираем стандартный маркер маркированному списку,
-  у которого есть атрибут class
- */
+Убираем стандартный маркер маркированному списку,
+у которого есть атрибут class
+*/
 :where(ul[class]) {
     list-style: none;
 }
 
 /**
-  Обнуляем вертикальные внешние отступы параграфа,
-  объявляем локальную переменную для внешнего отступа вниз,
-  чтобы избежать взаимодействие с более сложным селектором
- */
+Обнуляем вертикальные внешние отступы параграфа,
+объявляем локальную переменную для внешнего отступа вниз,
+чтобы избежать взаимодействие с более сложным селектором
+*/
 p {
     --paragraphMarginBottom: 24px;
-
+    
     margin-block: 0;
 }
 
 /**
-  Внешний отступ вниз для параграфа без атрибута class,
-  который расположен не последним среди своих соседних элементов
- */
+Внешний отступ вниз для параграфа без атрибута class,
+который расположен не последним среди своих соседних элементов
+*/
 p:where(:not([class]):not(:last-child)) {
     margin-bottom: var(--paragraphMarginBottom);
 }
 
 
 /**
-  Упрощаем работу с изображениями
- */
+Упрощаем работу с изображениями
+*/
 img {
     display: block;
     max-width: 100%;
 }
 
 /**
-  Наследуем свойства шрифт для полей ввода
- */
+Наследуем свойства шрифт для полей ввода
+*/
 input,
 textarea,
 select,
@@ -125,15 +125,15 @@ button {
 
 html {
     /**
-      Пригодится в большинстве ситуаций
-      (когда, например, нужно будет "прижать" футер к низу сайта)
-     */
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+    */
     height: 100%;
 }
 
 /**
-  Плавный скролл
- */
+Плавный скролл
+*/
 html,
 :has(:target) {
     scroll-behavior: smooth;
@@ -141,33 +141,36 @@ html,
 
 body {
     /**
-      Пригодится в большинстве ситуаций
-      (когда, например, нужно будет "прижать" футер к низу сайта)
-     */
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+    */
     min-height: 100%;
     /**
-      Унифицированный интерлиньяж
-     */
+    Унифицированный интерлиньяж
+    */
     line-height: 1.5;
 }
 
 /**
-  Приводим к единому цвету svg-элементы
- */
+Приводим к единому цвету svg-элементы
+*/
 svg *[fill] { fill: currentColor }
 svg *[stroke] { stroke: currentColor }
 
 /**
-  Чиним баг задержки смены цвета при взаимодействии с svg-элементами
- */
+Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+*/
 svg * {
     transition-property: fill, stroke;
 }
-
+a {
+    color: var(--color-white);
+    text-decoration: none;
+}
 /**
-  Удаляем все анимации и переходы для людей,
-  которые предпочитают их не использовать
- */
+Удаляем все анимации и переходы для людей,
+которые предпочитают их не использовать
+*/
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
@@ -181,13 +184,14 @@ svg * {
 :root {
     --font-family: "Fira Sans";
     --second-family: "Garamond";
-
+    
     --color-white: #FFFFFF;
     --color-background: #EDEDED;
     --color-black: #191919;
     --color-accent: #05B093;
     --color-background-poster: rgba(25, 25, 25, 0.05);
-
+    --color-link-gray: rgb(70, 70, 70);
+    
     --max-widht: 1296px;
     --border-radius-button: 50px;
     --border-radius-poster: 16px;
@@ -261,6 +265,12 @@ h6 {
     color: var(--color-white);
 }
 
+.header__navigation_link:hover {
+    color: var(--color-accent);
+    animation-duration: 0.2s;
+}
+
+
 .main {
     grid-column: 1 / span 12;
     color: var(--color-black);
@@ -274,7 +284,7 @@ h6 {
 .slider__main_image {
     grid-column: 1 / span 8;
     border-radius: 12px;
-
+    
 }
 
 .slider__aside_block {
@@ -305,11 +315,17 @@ h6 {
     color: currentColor;
 }
 
+.slider__aside_link:hover{
+    color: var(--color-link-gray);
+    animation-duration: 0.2s;
+}
+
+
 .eventPoster {
     display: flex;
     font-family: var(--second-family), sans-serif;
     margin-top: 184px;
-
+    
 }
 
 .eventPoster__header {
@@ -382,7 +398,7 @@ h6 {
     line-height: 1.4;
     text-align: center;
     opacity: 0.75;
-
+    
 }
 
 .sectionEvent__poster_date_month {
@@ -471,7 +487,15 @@ h6 {
     font-size: 16px;
     line-height: 1.4;
     white-space: nowrap;
+    cursor: pointer;
 }
+
+.sectionEvent__poster_button:hover {
+    color: var(--color-accent);
+    background: var(--color-white);
+    animation-duration: 0.5ms;
+}
+
 
 .eventPoster__news {
     row-gap: 60px;
@@ -546,7 +570,7 @@ h6 {
     justify-content: space-between;
     height: 216px;
     width: 154px;
-
+    
 }
 
 .calendar_month {
@@ -561,7 +585,7 @@ h6 {
     flex-direction: row;
     column-gap: 8px;
     height: 48px;
-
+    
 }
 
 .calendar_month_button {
@@ -575,7 +599,15 @@ h6 {
     padding: 12px;
     width: 48px;
     aspect-ratio: 1;
+    cursor: pointer;
 }
+
+.calendar_month_button:hover {
+    color: var(--color-accent);
+    background-color: var(--color-white);
+    animation-duration: 0,5ms;
+}
+
 
 .calendar_date {
     display: flex;
@@ -672,14 +704,22 @@ h6 {
     max-height: 386px;
 }
 
-.footer-middle {
+.footer__logo {
+    grid-column: span 4;
+}
+
+.footer-block {
+    padding-top: 50px;
+}
+
+.footer__middle {
     display: flex;
     flex-direction: column;
     grid-column: 5 / span 4;
     row-gap: 32px;
 }
 
-.footer-middle-title {
+.footer__title {
     font-family: var(--second-family), sans-serif;
     font-weight: 700;
     font-size: 24px;
@@ -691,7 +731,7 @@ h6 {
     column-gap: 24px;
 }
 
-.footer-middle-item {
+.footer__item {
     font-family: var(--font-family), sans-serif;
     font-weight: 400;
     font-size: 16px;
@@ -713,7 +753,7 @@ h6 {
     line-height: 1.4;
 }
 
-.footer-end-list {
+.footer__end-list {
     display: flex;
     flex-direction: column;
     row-gap: 24px;
@@ -732,7 +772,7 @@ h6 {
     width: 100%;
     border: 1px solid var(--color-white);
     opacity: 0.5;
-
+    
 }
 
 .footer-co {
